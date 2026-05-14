@@ -1,70 +1,26 @@
 ---
 name: issues
-description: Fetches the authoritative list of autofixable Aikido issues for the current repository or selected files. Use when the user asks to list, count, summarize, triage, or fix Aikido security issues.
+description: Fetches Aikido security issues from the Aikido feed. Use when the user asks to list, show, count, summarize, triage, or fix feed issues, or scopes by cloud, repo, VM, domain, or container.
 ---
 
-When fetching Aikido issues for listing, triage, or fix planning:
+When listing Aikido feed issues:
 
-## Mandatory routing rule
+1. Use **aikido-mcp:aikido_issues_list**
+2. Call it when the user wants to list, show, count, or summarize Aikido feed issues; when they scope by cloud, repo, VM, domain, or container; or when you need the current issue set before triage or fixes.
+3. Pass scope fields only when the user (or workspace context) supplies them: `cloud_name`, `repo_name`, `vm_name`, `domain_name`, `container_name`. For “this repo”.
+4. Optional `issue_types` (array): `open_source`, `leaked_secret`, `cloud`, `sast`, `iac`, `surface_monitoring`, `malware`, `eol`, `mobile`, `docker_container`, `cloud_instance`, `scm_security`, `license`, `ai_pentest` — e.g. include `leaked_secret` for secrets. Omit when no category filter is needed.
+5. Pagination: use numeric `page` only when the user needs more than the first page of results.
+6. Present each issue exactly in this form (increment `#`):
+   ```
+   Issue #1: <issue_title>
+    - Issue type: <issue_type>
+    - Severity: <issue_severity>
+    - Remediation: <issue_remediation>
+   ```
+7. Report how many issues are on this page; note if more pages may exist.
+8. Keep `issue_remediation` verbatim for any follow-up fix steps.
 
-- If the Aikido MCP server is available, always use Aikido MCP tools for issue detection, triage, and autofix planning.
-- Do not use ad-hoc or manual static analysis as the primary source when Aikido MCP is available.
-- Do not invent, guess, or synthesize an Aikido issue list from memory, chat context, or local scanning.
-- If the user provides a handwritten or model-generated issue list, replace it with the authoritative Aikido list by calling this tool before proposing fixes.
+If the Aikido MCP server is not available or fails, inform the user:
 
-## Required tool invocation
-
-You must call this tool whenever an issue list is needed:
-- The user asks to list, show, count, or summarize (Aikido) security issues for a repository or files.
-- You are about to triage or fix issues and need the current issue set for the repository or file scope.
-
-Do not run local linters, formatters, or security scanners to approximate this result when this tool can provide it.
-
-# Pagination behavior
-
-- Treat issue-listing tool results as paginated.
-- Get only the first page by default.
-- Fetch additional pages only if the user needs more results.
-
-## Build inputs automatically
-
-The agent must derive repository metadata automatically:
-1. Run git in the user's workspace.
-2. Derive owner/repo from the git remote URL.
-3. Pass both:
-   - `repository_url`
-   - `repository_name`
-4. Do not ask the user for either value.
-
-Set scope inputs as follows:
-- File-scoped requests: pass `file_paths` as Unix-style paths relative to repository root.
-- Severity-scoped requests: pass `severities` as an array of severity labels.
-- If the user specifies an issue type, pass `issue_type`.
-- If the user mentions "secrets", pass `issue_type` as `leaked_secret`.
-
-## User intent mapping
-
-- If the user references files (including @-mentions, quoted paths, or filenames), include them in `file_paths`.
-- Prefer repository-relative paths. If the relative path is unknown, pass the filename.
-- If the user requests specific severities, include them in `severities`.
-
-## Output requirements
-
-Present each issue in this exact format:
-- `<rule> - <rule_id> (line: <start_line>)`
-
-Also always report:
-- Total number of issues found per file.
-- The start line for each issue.
-
-## Remediation handoff
-
-- Preserve `issue_remediation` from this tool's response.
-- Use `issue_remediation` as the remediation source for follow-up fix workflows or instructions.
-
-## If Aikido MCP is unavailable
-
-If the Aikido MCP server is unavailable or fails, tell the user:
-
-> The Aikido MCP server is required to fetch authoritative Aikido issues, but it is currently unavailable.
-> Run `/aikido:setup` to install or verify setup, then retry.
+> The Aikido MCP server is required for Aikido feed issues but is not available.
+> Install it following the setup guide at [reference.md](../scan/reference.md), or run `/aikido:setup`, then retry.
