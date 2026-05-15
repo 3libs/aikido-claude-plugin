@@ -6,7 +6,7 @@ description: List, count, summarize, or triage security issues from the Aikido s
 When listing Aikido feed issues:
 
 1. Use **aikido-mcp:aikido_issues_list**
-2. Call it when the user wants to list, show, count, or summarize Aikido feed issues; when they scope by cloud, repo, VM, domain, or container; or when you need the current issue set before triage or fixes.
+2. Call it when the user wants to list, show, count, or summarize Aikido feed issues.
 3. Pass scope fields only when the user (or workspace context) supplies them: `cloud_name`, `repo_name`, `vm_name`, `domain_name`, `container_name`.
 4. Optional `issue_types` (array): `open_source`, `leaked_secret`, `cloud`, `sast`, `iac`, `surface_monitoring`, `malware`, `eol`, `mobile`, `docker_container`, `cloud_instance`, `scm_security`, `license`, `ai_pentest` — e.g. include `leaked_secret` for secrets. Omit when no category filter is needed.
 5. Pagination: use numeric `page` only when the user needs more than the first page of results (zero-indexed). Only 25 findings are reported per page. Report to the user if there are more findings on following pages.
