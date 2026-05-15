@@ -1,6 +1,6 @@
 # Aikido Security — Claude Code Plugin
 
-Brings [Aikido Security](https://aikido.dev) scanning directly into Claude Code. Detects SAST vulnerabilities, exposed secrets, and IaC misconfigurations in code you write or modify, and guides Claude to fix them before they ship.
+Brings [Aikido Security](https://aikido.dev) directly into Claude Code via the Aikido MCP server. Scan code you write or modify for vulnerabilities and secrets, request findings from your Aikido security feed.
 
 ## Installation and setup
 
