@@ -17,7 +17,6 @@ When listing Aikido feed issues:
     - Severity: <issue_severity>
     - Remediation: <issue_remediation>
    ```
-7. Keep `issue_remediation` verbatim for any follow-up fix steps.
 
 If the Aikido MCP server is not available or fails, inform the user:
 
