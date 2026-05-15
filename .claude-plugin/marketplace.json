@@ -1,7 +1,7 @@
 {
   "name": "aikido-plugins",
   "metadata": {
-    "description": "Aikido Security scanning and list issues for Claude Code"
+    "description": "Aikido Security for Claude Code"
   },
   "owner": {
     "name": "Aikido Security"
@@ -10,7 +10,7 @@
     {
       "name": "aikido",
       "source": "./",
-      "description": "Scan code for SAST, secrets, and IaC; list Aikido feed findings; configure with /aikido:setup, /aikido:scan, and /aikido:aikido-issues"
+      "description": "Aikido Security scanning and issue retrieval for Claude Code"
     }
   ]
 }
