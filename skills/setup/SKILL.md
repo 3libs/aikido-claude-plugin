@@ -5,6 +5,14 @@ description: Configures the Aikido plugin by signing the user in through the MCP
 
 When helping the user configure the Aikido security plugin:
 
+## First: Verify Node.js version
+
+Before doing anything else, run `node --version` to check the installed Node.js version.
+
+- If Node.js is not installed or the command fails, stop and tell the user that Node.js 18.19.0 or higher is required to run the Aikido MCP server, and direct them to https://nodejs.org to install it.
+- If the version is below 18.19.0, stop and tell the user that the Aikido MCP server requires Node.js 18.19.0 or higher, show the currently installed version, and direct them to https://nodejs.org to upgrade.
+- If the version is 18.19.0 or higher, proceed with the steps below.
+
 **If the user is asking to switch accounts or re-authenticate**, call **aikido-mcp:aikido_login** with `force_reauth: true` and skip step 1 — the tool will always return fresh sign-in URLs. Continue from step 3 to walk the user through opening the URL and step 4 to verify.
 
 **Otherwise**, follow the standard setup flow:
