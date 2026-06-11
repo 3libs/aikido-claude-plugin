@@ -1,10 +1,6 @@
 ---
 name: setup
-description: Configures the Aikido plugin by setting up the API key and verifying the MCP server. Accepts an optional API key argument to configure automatically. Use when the user wants to set up or verify the Aikido plugin, after installing it, or when aikido_full_scan fails or is unavailable.
-arguments:
-  - name: aikido-api-key
-    description: Your Aikido API key from https://app.aikido.dev → Settings → Integrations → IDE Plugins. When provided, the key is configured automatically in Claude Code's MCP settings.
-    required: false
+description: Configures the Aikido plugin by signing the user in through the MCP login tool and verifying the MCP server. Use when the user wants to set up or verify the Aikido plugin, after installing it, when aikido mcp tool call fails or is unavailable, or when the user wants to switch Aikido accounts or re-authenticate.
 ---
 
 When helping the user configure the Aikido security plugin:
@@ -17,31 +13,12 @@ Before doing anything else, run `node --version` to check the installed Node.js 
 - If the version is below 18.19.0, stop and tell the user that the Aikido MCP server requires Node.js 18.19.0 or higher, show the currently installed version, and direct them to https://nodejs.org to upgrade.
 - If the version is 18.19.0 or higher, proceed with the steps below.
 
-## If the user provided an API key as an argument:
+**If the user is asking to switch accounts or re-authenticate**, call **aikido-mcp:aikido_login** with `force_reauth: true` and skip step 1 — the tool will always return fresh sign-in URLs. Continue from step 3 to walk the user through opening the URL and step 4 to verify.
 
-1. Read `~/.claude/settings.json` (create it as `{}` if it doesn't exist).
-2. Merge `AIKIDO_API_KEY` into the `env` object, preserving all other existing settings. The result should look like:
-   ```json
-   {
-     "env": {
-       "AIKIDO_API_KEY": "<key>"
-     }
-   }
-   ```
-3. Write the updated JSON back to `~/.claude/settings.json`.
-4. Confirm to the user that the API key has been saved to their Claude Code user settings and will apply to all projects.
-5. Inform the user that they need to restart Claude Code for the MCP server to pick up the new key.
-6. Offer to verify the setup after restart by running **aikido-mcp:aikido_full_scan** with a test payload.
+**Otherwise**, follow the standard setup flow:
 
-## If no API key was provided:
-
-1. Check whether the Aikido MCP server is currently available by calling **aikido-mcp:aikido_full_scan** with a minimal test payload: one file with path `test.js` and content `// test`.
-2. If it responds successfully, confirm to the user that the Aikido plugin is already configured and ready to use.
-3. If it fails or is unavailable, guide the user through the setup:
-   a. Tell the user to get their API key from **https://app.aikido.dev** → Settings → Integrations → IDE Plugins.
-   b. Suggest running the skill with the key directly:
-      ```
-      /aikido:setup <my-key>
-      ```
-   c. Remind the user to restart Claude Code after setting the key so the MCP server picks it up.
-   d. Offer to verify the setup after they have set the key by running the test scan again.
+1. Check the MCP server is reachable and the user is signed in by calling **aikido-mcp:aikido_login** with no arguments. The tool is idempotent — it returns "Already signed in" if a valid token is cached, otherwise it starts a new sign-in flow.
+2. If it reports the user is already signed in, confirm to the user that the Aikido plugin is configured and ready to use. Stop here.
+3. If it returns region-specific sign-in URLs (EU / US / ME), present them to the user verbatim — do not strip or modify the `state` or `redirect_uri` query parameters — and ask them to open the URL for their region in a browser to complete sign-in.
+4. Once the user reports they have completed the browser sign-in, verify the setup by calling **aikido-mcp:aikido_login** again.
+5. If the **aikido_login** call itself fails because the MCP server is unavailable, tell the user to ensure the Aikido plugin is installed and that Claude Code has loaded the `aikido-mcp` server, then retry.
