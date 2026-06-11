@@ -1,6 +1,6 @@
 ---
 name: setup
-description: Configures the Aikido plugin by signing the user in through the MCP login tool and verifying the MCP server. Use when the user wants to set up or verify the Aikido plugin, after installing it, when aikido_full_scan fails or is unavailable, or when the user wants to switch Aikido accounts or re-authenticate.
+description: Configures the Aikido plugin by signing the user in through the MCP login tool and verifying the MCP server. Use when the user wants to set up or verify the Aikido plugin, after installing it, when aikido mcp tool call fails or is unavailable, or when the user wants to switch Aikido accounts or re-authenticate.
 ---
 
 When helping the user configure the Aikido security plugin:
@@ -20,5 +20,5 @@ Before doing anything else, run `node --version` to check the installed Node.js 
 1. Check the MCP server is reachable and the user is signed in by calling **aikido-mcp:aikido_login** with no arguments. The tool is idempotent — it returns "Already signed in" if a valid token is cached, otherwise it starts a new sign-in flow.
 2. If it reports the user is already signed in, confirm to the user that the Aikido plugin is configured and ready to use. Stop here.
 3. If it returns region-specific sign-in URLs (EU / US / ME), present them to the user verbatim — do not strip or modify the `state` or `redirect_uri` query parameters — and ask them to open the URL for their region in a browser to complete sign-in.
-4. Once the user reports they have completed the browser sign-in, verify the setup by calling **aikido-mcp:aikido_full_scan** with a minimal test payload (one file with path `test.js` and content `// test`). Confirm success to the user.
+4. Once the user reports they have completed the browser sign-in, verify the setup by calling **aikido-mcp:aikido_login** again.
 5. If the **aikido_login** call itself fails because the MCP server is unavailable, tell the user to ensure the Aikido plugin is installed and that Claude Code has loaded the `aikido-mcp` server, then retry.
