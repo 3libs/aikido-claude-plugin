@@ -1,0 +1,9 @@
+<svg width="1600" height="400" viewBox="0 0 1600 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Aikido Security — Claude Code Plugin">
+  <rect width="1600" height="400" rx="28" fill="#181435"/>
+  <!-- Official Aikido mark (rectangle + arch), from aikido-cursor-plugin/assets/aikido-logo.svg -->
+  <g transform="translate(4.5,10) scale(9.5)" fill="#6551F3" fill-rule="nonzero">
+    <path d="M31,8 L9,8 L9,15.5358 L31,15.5358 L31,8 Z M31,22.604 C24.7412,17.1115 15.2587,17.1115 9,22.604 L9,31.9958 L20,21.1805 L30.9957,32 Z"/>
+  </g>
+  <text x="372" y="182" font-family="Arial, Helvetica, sans-serif" font-size="66" font-weight="700" fill="#FFFFFF">Aikido Security</text>
+  <text x="374" y="246" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="400" fill="#A397F8">Claude Code Plugin</text>
+</svg>
