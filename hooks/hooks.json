@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "A Write/Edit tool call just created or modified a file. Tool input: $ARGUMENTS. If the modified file is first-party source code (application code, infrastructure-as-code, or configuration that could contain secrets), use the Aikido `scan` skill to scan the files changed in this session for SAST vulnerabilities, exposed secrets, and IaC misconfigurations, then remediate any findings and rescan to verify. Skip silently if the change touches only non-code files (documentation, assets, or lockfiles without source changes), or if the user has asked you not to scan."
+          }
+        ]
+      }
+    ]
+  }
+}
