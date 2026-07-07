@@ -1,8 +1,24 @@
 ![Aikido Security — Claude Code Plugin](./assets/banner.svg)
 
 # Aikido Security — Claude Code Plugin
+All notable changes I made to the Aikido Security Claude Code plugin are documented here.
 
-Brings [Aikido Security](https://aikido.dev) directly into Claude Code via the Aikido MCP server. Scan code you write or modify for vulnerabilities and secrets, request findings from your Aikido security feed.
+### Added
+
+- **Automatic scanning via a `PostToolUse` hook** (`hooks/hooks.json`). After
+  Claude writes or edits a file (`Write`, `Edit`, or `MultiEdit`), the hook invokes
+  the `scan` skill on first-party source changes to check for SAST vulnerabilities,
+  exposed secrets, and IaC misconfigurations, then remediate and re-verify. Non-code
+  changes (documentation, assets, lockfiles without source changes) are skipped.
+  This brings the Claude Code plugin to parity with the Cursor plugin (always-apply
+  rule) and the Kiro plugin (`postToolUse` hook), which already scan automatically
+  after edits.
+
+### Changed
+
+- **`README.md`** — documented the automatic-scanning behavior under a new
+  "Automatic scanning" section.
+
 
 ## Installation and setup
 
