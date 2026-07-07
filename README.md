@@ -1,3 +1,5 @@
+![Aikido Security — Claude Code Plugin](./assets/banner.svg)
+
 # Aikido Security — Claude Code Plugin
 
 Brings [Aikido Security](https://aikido.dev) directly into Claude Code via the Aikido MCP server. Scan code you write or modify for vulnerabilities and secrets, request findings from your Aikido security feed.
